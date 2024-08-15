@@ -125,8 +125,7 @@ AUTHENTICATION_BACKENDS = [
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': '316277278508-tlefjd8c750h3buku9h33b5mfnrdbl3j.apps.googleusercontent.com',
-            'secret': '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',
+            
         },
         "SCOPE": [
             'profile',
