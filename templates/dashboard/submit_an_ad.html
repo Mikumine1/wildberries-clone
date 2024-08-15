@@ -1,0 +1,22 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Подать объявление</h1>
+        <form action="" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div class="mb-3 ">
+                <label for="" class="form-label"></label>{{ form.name }}<br>
+                 Выберите компанию для подачи объявление
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label"></label>{{ form.image }}
+            </div>
+            <button class="btn btn-primary" type="submit">
+                Подать обявление
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card d-flex flex-column">
+        <table class="mx-3 my-2">
+            <tr>
+                <th>
+                    Продукты:
+                </th>
+            </tr>
+        </table><br>
+        <div class="card-datatable table-responsive">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <table class="datatables-products table dataTable no-footer dtr-column collapsed"
+                    id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" >
+                    <thead class="border-top">
+                        <tr>
+                            <th class="" rowspan="1" colspan="1" style="width: 18px;">№</th>
+                            <th>Продукт</th>
+                            <th>Категория</th>
+                            <th>Цена</th>
+                            <th>Компания</th>
+                            <th>Статус</th>
+                            <th>Изменить</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in products %}
+                        <tr class="odd">
+                            <td class="">
+                                {{ forloop.counter }}
+                            </td>
+                            <td class="sorting_1">
+                                <div class="d-flex justify-content-start align-items-center product-name">
+                                    <div class="avatar-wrapper">
+                                        <div class="avatar avatar me-4 rounded-2 bg-label-secondary"><img
+                                                src="{{ i.image.url }}" alt="Product-9" class="rounded">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <h6 class="text-nowrap mb-0">{{ i.name }}</h6><small
+                                            class="text-truncate d-none d-sm-block">{{ i.description|truncatechars:40 }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="text-truncate d-flex align-items-center text-heading">
+                                    <span class="d-flex justify-content-center align-items-center">
+                                    </span>{{ i.category }}</span>
+                            </td>
+                            <td>
+                                <span>{{ i.price }} $</span>
+                            </td>
+                            <td>
+                                <span>{{ i.company.name }}</span>
+                            </td>
+                            <td class="dtr-hidden">
+                                <span class="badge btn btn-primary text-capitalized">
+                                    {{ i.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="text-nowrap">
+                                        <button class="btn btn-icon me-1" data-bs-target="#editPermissionModal"
+                                            data-bs-toggle="modal" data-bs-dismiss="modal">
+                                            <a href="{% url 'edit' i.id %}" class="btn btn-icon fs-6"><i
+                                                    class="bx bx-edit bx-md"></i></a>
+                                        </button><a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow"
+                                            data-bs-toggle="dropdown"><i
+                                                class="bx bx-dots-vertical-rounded bx-md"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end m-0"><a href="{% url 'edit' i.id %}"
+                                                class="dropdown-item">Изменить</a><a href="javascript:;"
+                                                class="dropdown-item">Удалить</a></div>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

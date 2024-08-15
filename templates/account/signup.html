@@ -1,0 +1,89 @@
+{% extends 'account/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load allauth account %}
+{% block content %}
+  <div class="card px-sm-6 px-0">
+    <div class="card-body">
+      
+      <h4 class="mb-1">Welcome to sneat! 👋</h4>
+      <p class="mb-6">Please sign-in to your account and start the adventure</p>
+
+      <form id="formAuthentication" method="post" class="mb-6 fv-plugins-bootstrap5" >
+          {% csrf_token %}
+        <div class="mb-6 fv-plugins-icon-container">
+          <label for="email" class="form-label">Username</label>
+          {{ form.username }}
+            <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+        </div>
+        <div class="mb-6 fv-plugins-icon-container">
+            <label for="email" class=" form-label">Email</label>
+            {{ form.email }}
+              <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+          </div>
+        <div class="mb-6 form-password-toggle fv-plugins-icon-container">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-group input-group-merge has-validation">
+            {{ form.password1 }}
+            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+          </div><div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+        </div>
+        <div class="mb-6 form-password-toggle fv-plugins-icon-container">
+            <label class="form-label" for="password">Confirm password</label>
+            <div class="input-group input-group-merge has-validation">
+              {{ form.password2 }}
+              <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            </div><div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+          </div>
+        <div class="mb-6">
+          <button class="btn btn-primary d-grid w-100 mt-3" type="submit">Signup</button>
+        </div>
+    </form>
+
+      <p class="text-center">
+        <span>Already have an account?</span>
+        <a href="{% url 'account_login' %}">
+          <span>Login</span>
+        </a>
+      </p>
+
+      <div class="divider my-6">
+        <div class="divider-text">or</div>
+      </div>
+
+        <div class="d-flex justify-content-center">
+          <a href="{% url 'google_login' %}" class="btn btn-sm btn-icon rounded-circle btn-text-google-plus">
+            <i class="tf-icons bx bxl-google fs-2"></i>
+          </a>
+        </div>
+        {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible mt-3" role="alert">
+            <h4 class="alert-heading d-flex align-items-center"><span class="alert-icon rounded-circle"><i class="bx bx-error"></i></span>Form error!!</h4>
+            {% if form.username.errors %}
+            <p>
+                Username: {{ form.username.errors }}
+            </p>
+            {% endif %}
+            {% if form.email.errors %}
+            <p>
+                Email: {{ form.email.errors }}
+            </p>
+            {% endif %}
+            {% if form.password1.errors %}
+            <p>
+                Password: {{ form.password1.errors }}
+            </p>
+            {% endif %}
+            {% if form.password2.errors %}
+            <p>
+                Confirm password: {{ form.password2.errors }}
+            </p>
+            {% endif %}
+            
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+{% endblock %}

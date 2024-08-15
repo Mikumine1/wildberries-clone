@@ -1,0 +1,63 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 col-lg-8">
+        <div class="card mb-6">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title m-0">Детали заказа</h5>
+            </div>
+            <div class="card-datatable table-responsive">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <table class="datatables-order-details table border-top dataTable no-footer dtr-column"
+                        id="DataTables_Table_0" style="width: 748px;">
+                        <thead>
+                            <tr>
+                                
+                                <th class="w-50 sorting_disabled" rowspan="1" colspan="1" style="width: 275px;"
+                                    aria-label="products">Товары</th>
+                                <th class="w-25 sorting_disabled" rowspan="1" colspan="1" style="width: 113px;"
+                                    aria-label="price">Цена</th>
+                                <th class="w-25 sorting_disabled" rowspan="1" colspan="1" style="width: 104px;"
+                                    aria-label="qty">Количество</th>
+                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 42px;"
+                                    aria-label="total">Итого</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd">
+                                
+                                <td class="sorting_1">
+                                    <div class="d-flex justify-content-start align-items-center text-nowrap">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar avatar-sm me-3"><img
+                                                    src="{{ order.product.image.url }}"
+                                                    alt="product-Wooden Chair" class="rounded-2"></div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <h6 class="text-heading mb-0">{{ order.product.name }}</h6><small>{{ order.product.description }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span>{{ order.product.price }}</span></td>
+                                <td><span class="text-body">{{ order.quantity }}</span></td>
+                                <td><span class="text-body">{{ order.get_total }}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4">
+        <div class="card mb-5">
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="card-title m-0">Адрес доставки</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0"></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

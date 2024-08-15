@@ -1,0 +1,29 @@
+<aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu bg-menu-theme flex-grow-0" data-bg-class="bg-menu-theme" style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+  <div class="container-xxl d-flex h-100">
+  <a href="#" class="menu-horizontal-prev disabled">
+
+  </a>
+  <div class="menu-horizontal-wrapper">
+    <ul class="menu-inner" style="margin-left: 0px;">
+      <li class="menu-item
+ active">
+        <a href="javascript:void(0)" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-customize"></i>
+          <div data-i18n="Apps">{% if category %}{{ category.name }}{% else %}Категории{% endif %}</div>
+        </a>
+        <ul class="menu-sub">
+          {% for category in categories %}
+          <li class="menu-item">
+            <a href="{% url 'category-catalog' category.slug %}" class="menu-link">
+                <div class="menu-icon">
+                  {{ category.icon|safe }}
+                </div>
+                <div>{{ category.name }}</div>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+  </div><a href="#" class="menu-horizontal-next"></a></div>
+</aside>

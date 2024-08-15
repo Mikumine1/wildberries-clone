@@ -1,0 +1,41 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-5 mx-auto">
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-center align-items-center">
+                <h5 class="mb-0">Адрес доставки</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="basic-default-fullname" class="form-label">Страна</label>
+                        {{form.country}}
+                    </div>
+                    <div class="mb-3">
+                        <label for="basic-default-fullname" class="form-label">Штат</label>
+                        {{form.state}}
+                    </div>
+                    <div class="mb-3">
+                        <label for="basic-default-fullname" class="form-label">Город</label>
+                        <div class="input-group input-group-merge">
+                            {{form.city}}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="basic-default-fullname" class="form-label">Адрес</label>
+                        {{form.address}}
+                    </div>
+                    <div class="mb-3">
+                        <label for="basic-default-fullname" class="form-label">Zipcode</label>
+                        {{form.zipcode}}
+                    </div>
+                        <button type="submit" class="btn btn-primary d-grid">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

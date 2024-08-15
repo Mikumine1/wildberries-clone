@@ -1,0 +1,55 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-datatable table-responsive">
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+            <table class="datatables-category-list table border-top dataTable no-footer dtr-column collapsed"
+                id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1210px;">
+                <thead>
+                    <tr>
+                        <th class="" rowspan="1" colspan="1" style="width: 18px;">№</th>
+                        <th>Имя</th>
+                        <th>Общая цена</th>
+                        <th>Количество</th>
+                        <th>Изменить</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in category %}
+                    <tr class="odd">
+                        <td class="">
+                            {{ forloop.counter }}
+                        </td>
+                        <td class="sorting_1">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex flex-column justify-content-center">
+                                    <span class="text-heading text-wrap fw-medium">{{ i.name }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-sm-end"></div>
+                        </td>
+                        <td>
+                            <div class="mb-0 text-sm-end">$7912.99</div>
+                        </td>
+                        <td class="dtr-hidden" style="display: none;">
+                            <div class="d-flex align-items-sm-center justify-content-sm-center"><button
+                                    class="btn btn-icon"><i class="bx bx-edit bx-md"></i></button><button
+                                    class="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i
+                                        class="bx bx-dots-vertical-rounded bx-md"></i></button>
+                                <div class="dropdown-menu dropdown-menu-end m-0"><a href="javascript:0;"
+                                        class="dropdown-item">View</a><a href="javascript:0;"
+                                        class="dropdown-item">Suspend</a></div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div style="width: 1%;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

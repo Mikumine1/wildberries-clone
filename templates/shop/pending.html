@@ -1,0 +1,27 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="row row-cols-6 row-cols-md-6">
+    {% for order in orders %}
+    <div class="col" id="product{{ order.product.id }}">
+            <a href="{% url 'product-detail' order.product.id %}">
+                <img src="{{ order.product.image.url }}" class="img-fluid" style="border-radius: 15px;" alt="">
+            </a>
+        <div class="d-flex flex-column mt-1">
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="text-dark fw-bold fs-4">{{ order.product.price }}$</span>
+              </div>
+              <div>
+                {% for i in product.rating_average %}
+                <i class='bx bxs-star text-warning fs-6'></i>
+              {% endfor %}
+              </div>
+            </div>
+            <p class="text-muted">{{ order.product.name|truncatechars:20 }}</p>
+            <span class="badge bg-info">{{ order.get_status_display }}</span>
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

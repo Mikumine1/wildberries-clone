@@ -1,0 +1,200 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Корзина</h5>
+
+            </div>
+            <div class="card-datatable table-responsive">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+
+                    <table class="datatables-products table dataTable no-footer dtr-column collapsed"
+                        id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                        <thead class="border-top">
+                            <tr>
+                                <th class="" rowspan="1" colspan="1" style="width: 18px;">№</th>
+                                <th>Продукт</th>
+                                <th>Количество</th>
+                                <th>Цена</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in orders %}
+                            <tr class="odd">
+                                <td class="">
+                                    {{ forloop.counter }}
+                                </td>
+                                <td class="sorting_1">
+                                    <div class="d-flex justify-content-start align-items-center product-name">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar avatar me-4 rounded-2 bg-label-secondary"><img
+                                                    src="{{ i.product.image.url }}" alt="Product-9" class="rounded">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <h6 class="text-nowrap mb-0">{{ i.product.name }}</h6><small
+                                                class="text-truncate d-none d-sm-block">
+                                                {{i.product.description|truncatechars:50 }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <span>{{ i.quantity }}</span>
+                                        <form method="post" class="d-flex flex-column">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="orderitem_id" value="{{ i.id }}">
+                                            <button class="btn btn-sm" type="submit" name="up">
+                                                <i class='bx bxs-up-arrow bx-sm fs-6'></i>
+                                            </button>
+                                            <button class="btn btn-sm" type="submit" name="down">
+                                                <i class='bx bxs-down-arrow bx-sm fs-6'></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span>
+                                        {{ i.get_total }}$
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card mb-6">
+            <div class="card-header">
+                <h5 class="card-title m-0">Детали заказчика</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-start align-items-center mb-4">
+                    <div class="avatar me-3">
+                        {% if request.user.image %}
+                        <img src="{{ request.user.image.url }}" alt="Avatar" class="rounded-circle">
+                        {% else %}
+                        <img src="{% static 'assets/img/avatars/1.png' %}" alt="Avatar" class="rounded-circle">
+                        {% endif %}
+                    </div>
+                    <div class="d-flex flex-column">
+                        <a href="app-user-view-account.html" class="text-body text-nowrap">
+                            <h6 class="mb-0">{{ request.user.username }}</h6>
+                        </a>
+                        <span>ID заказчика: #{{ request.user.id }}</span>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between flex-column mb-4">
+                    <h6 class="mb-1">Контактная информация</h6>
+                    <p class=" mb-1">Email: {{ request.user.email }}</p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="fs-5 fw-bold">Адрес доставки</span>
+                        <a href="{% url 'shipping-page' %}">Изменит</a>
+                    </div>
+                    <p class=" mb-1">Страна: {{ shipping_adress.country }}</p>
+                    <p class=" mb-1">Город: {{ shipping_adress.city }}</p>
+                    <p class=" mb-1">Штат: {{ shipping_adress.state }}</p>
+                    <p class=" mb-1">Улица: {{ shipping_adress.address }}</p>
+                    <p class=" mb-1">Zipcode: {{ shipping_adress.zipcode }}</p>
+                </div>
+                <div class="d-flex justify-content-between mb-4">
+                    <span class="text-muted">Товары, {{ order.get_cart_total }} шт.</span>
+                    <span class="text-muted">{{ order.get_cart_total_amount|intcomma }}$</span>
+                </div>
+                <div class="d-flex justify-content-between mb-4">
+                    <span class="fs-3 fw-bold text-dark">Итого</span>
+                    <span class="fs-3 fw-bold text-dark">{{ order.get_cart_total_amount|intcomma }}$</span>
+                </div>
+                {% if orders %}
+                {% if not shipping_address_exists %}
+                <div id="paypal-button-container">
+                    Методы оплаты
+                </div>
+                {% else %}
+                <a href="{% url 'shipping-page' %}" class="btn btn-primary btn-lg w-100">Заказать</a>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://www.paypal.com/sdk/js?client-id=AbBNKE1QshGdXk2Dzjw9wox1RDTE-dwXSr5itzC3NF5CTLB6lZH9dNLH3YfBl8cuq7uxDqGhO50E71X6"></script>
+
+<script>
+    var total = '{{ order.get_cart_total_amount }}'
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+          style: {
+                color:  'blue',
+                shape:  'rect',
+            },
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value:parseFloat(total).toFixed(2)
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    submitFormData()
+                });
+            }
+
+        }).render('#paypal-button-container');
+    </script>
+
+  <script type="text/javascript">
+    
+
+
+      function submitFormData(){
+
+            order = '{{ order }}'
+        
+        // console.log('Shipping Info:', shippingInfo)
+        // console.log('User Info:', userFormData)
+
+        var url = "/process-order/"
+        fetch(url, {
+          method:'POST',
+          headers:{
+            'Content-Type':'applicaiton/json',
+            'X-CSRFToken':'{{ csrf_token }}',
+          }, 
+          body:JSON.stringify({'order':order}),
+          
+        })
+        .then((response) => response.json())
+        .then((data) => {
+        console.log('Success:', data);
+        alert('Transaction completed');  
+
+        window.location.href = "{% url 'cart-page' %}"
+
+        })
+      }
+  </script>
+
+{% endblock %}

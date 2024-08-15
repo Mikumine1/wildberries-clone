@@ -1,0 +1,70 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+{% block title %} {{ company.name }} {% endblock %}
+{% block content %}
+<div id="carouselExampleControls" class="carousel slide" style="background-color: white; border-radius: 20px; box-shadow: 0px 0px 10px 2px #00000094;">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="d-flex">
+        <div class="col-4 d-flex justify-content-center">
+          <img src="{{ company.logo.url }}" style="width: 250px; height: 180px;" alt="">
+        </div>
+        <div class="col-7 text-center">
+          <span style="font-size: 120px; font-weight: bold; color: black">{{ company.name }}</span>
+        </div>
+      </div>
+    </div>
+    {% if company.description %}
+    <div class="carousel-item text-center" style="max-height: 180px; min-height: 179px;">
+      <p>
+        {{ company.description }}
+      </p>
+    </div>  
+    {% endif %}
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="visually-hidden">Previous</span>
+  </button>
+  {% if company.description %}
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <p>О нас</p>
+    <span class="visually-hidden">Next</span>
+  </button>
+  {% endif %}
+</div>
+
+<div class="row row-cols-6 row-cols-md-6 container-xxl">
+    {% for product in products %}
+    <div class="col" id="product{{ product.id }}">
+            <a href="{% url 'product-detail' product.id %}">
+                <img src="{{ product.image.url }}" class="img-fluid" style="border-radius: 15px;" alt="">
+            </a>
+        <div class="d-flex flex-column mt-1">
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="text-dark fw-bold fs-4">{{ product.price }}$</span>
+              </div>
+              <div>
+                {% for i in product.rating_average %}
+                <i class='bx bxs-star text-warning fs-6'></i>
+              {% endfor %}
+              </div>
+            </div>
+            <p class="text-muted">{{ product.name|truncatechars:20 }}</p>
+            {% if product.in_cart_status %}
+            <button class="btn btn-primary" disabled >В корзине</button>
+            {% else %}
+            <form action="product{{ product.id }}" method="post">
+              {% csrf_token %}
+              <input type="hidden" value="{{ product.id }}" name="product_id">
+              <button type="submit" class="btn btn-primary">В корзину</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

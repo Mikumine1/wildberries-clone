@@ -1,0 +1,300 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+{% load ratings %}
+{% block title %} {{ product.name }} {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-1">
+        <div class="d-flex flex-column gap-3">
+            <img src="{{ product.image.url }}" class="img-fluid" style="border-radius: 15px;" alt="">
+            <img src="{{ product.image.url }}" class="img-fluid" style="border-radius: 15px;" alt="">
+            <img src="{{ product.image.url }}" class="img-fluid" style="border-radius: 15px;" alt="">
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="row">
+            <div class="col-6">
+                <img src="{{ product.image.url }}" class="img-fluid" style="border-radius: 15px;" alt="">
+            </div>
+            <div class="col-6">
+                <div class="d-flex flex-column gap-3">
+                    <div>
+                        <a href="{% url 'company-products' company.id %}" class="btn btn-sm btn-secondary">{{ company.name }}<i class='bx bx-chevron-right'></i></a>
+                    </div>
+                    <h4 class="fw-bold text-dark">{{ product.name }}</h4>
+
+                    <div class="row row-cols-5">
+                        {% for image in images %}
+                        <div class="col">
+                            <img src="{{ image.image.url }}" class="img-fluid" style="border-radius: 15px;" alt="">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <span>Артикул</span>
+                                </th>
+                                <td>
+                                    <span class="text-dark">147645009</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span>Состав</span>
+                                </th>
+                                <td>
+                                    <span class="text-dark">92% хлопка 8% лайкры</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span>Страна производства</span>
+                                </th>
+                                <td>
+                                    <span class="text-dark">Россия</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span>Артикул</span>
+                                </th>
+                                <td>
+                                    <span class="text-dark">147645009</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span>Состав</span>
+                                </th>
+                                <td>
+                                    <span class="text-dark">92% хлопка 8% лайкры</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <span>Страна производства</span>
+                                </th>
+                                <td>
+                                    <span class="text-dark">Россия</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div>
+                        <button class="btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd" aria-controls="offcanvasEnd">
+                            Все характеристики и описание
+                          </button>
+                    </div>
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd" aria-labelledby="offcanvasEndLabel" style="visibility: visible;" aria-modal="true" role="dialog">
+                        <div class="offcanvas-header">
+                          <h5 id="offcanvasEndLabel" class="offcanvas-title">характеристики и описание</h5>
+                          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            <span>Артикул</span>
+                                        </th>
+                                        <td>
+                                            <span class="text-dark">147645009</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <span>Состав</span>
+                                        </th>
+                                        <td>
+                                            <span class="text-dark">92% хлопка 8% лайкры</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <span>Страна производства</span>
+                                        </th>
+                                        <td>
+                                            <span class="text-dark">Россия</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <span>Артикул</span>
+                                        </th>
+                                        <td>
+                                            <span class="text-dark">147645009</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <span>Состав</span>
+                                        </th>
+                                        <td>
+                                            <span class="text-dark">92% хлопка 8% лайкры</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            <span>Страна производства</span>
+                                        </th>
+                                        <td>
+                                            <span class="text-dark">Россия</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h3>Описание</h3>
+                          {{ product.description }}
+                        </div>
+                      </div>
+                      <a style="color: black;" href="{% url 'category-catalog' product.category.slug %}">Все товары в категории {{ product.category }} ></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3" style="margin-top: 90px;">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex aligen-items-center justify-content-between mb-2">
+                    <span class="text-primary fw-bold fs-2">{{ product.price }} $</span>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% if request.user.is_authenticated %}
+                        {% if is_liked %}
+                        <button type="submit" class="btn btn-secondary" name="like">
+                            <i class="tf-icons bx bx-heart"></i>
+                        </button>
+                        {% else %}
+                        <button type="submit" class="btn btn-danger" name="like">
+                            <i class="tf-icons bx bx-heart"></i>
+                        </button>
+                        {% endif %}
+                        </form>
+                        {% else %}
+                        <button type="button" class="btn btn-danger" name="">
+                             <i class="tf-icons bx bx-heart"></i>
+                        </button>
+                        {% endif %}
+                </div>
+                <div class="d-flex flex-column gap-2">
+                        {% if product.in_cart_status %}
+                            <button class="btn btn-primary" disabled >В корзине</button>
+                            {% else %}
+                            <form action="#product{{ product.id }}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ product.id }}" name="product_id">
+                                <button type="submit" class="btn btn-primary w-100">В корзину</button>
+                            </form>
+                            {% endif %}
+                    <a href="#" class="btn btn-lg btn-info">Купить сейчас</a>
+                    <div class="text-center">{% ratings product %}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="d-flex aligen-items-center justify-content-between mt-3">
+                <div class="d-flex gap-3">
+                    <h3 class="text-muted">Отзывы</h3>
+                    <span class="text-muted">12345 оценок</span>
+                    <h5 class="text-muted">{{ likes }} лайков</h5>
+                </div>
+            <button type="button" class="btn text-dark d-flex gap-2" data-bs-toggle="modal" data-bs-target="#modalCenter">
+                <i class='bx bx-edit'></i> Написать отзыв 
+              </button>
+              <div class="modal fade" id="modalCenter" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <form class="modal-content" action="" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalCenterTitle">Написать отзыв</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col mb-3">
+                          <label for="userReview" class="form-label">Текст</label>
+                          {{ form.text }}
+                        </div>
+                      </div>    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Закрыть</button>
+                      <button type="submit" class="btn btn-primary" name="comment">Оставить отзыв</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            {% if comments %}
+            <div class="swiper" id="swiper-multiple-slides">
+              <div class="swiper-wrapper">
+                {% for comment in comments %}
+                <div class="swiper-slide" style="background-color: white; border-radius: 20px; text-align: initial;">
+                    
+                    <div class="d-flex flex-column p-3">
+                        <div class="d-flex">
+                            <div class="d-flex gap-3">
+                                <img src="{% static 'assets/img/avatars/1.png' %}" width="50" height="50" class="rounded-circle" alt="">
+                                <div class="d-flex flex-column flex-start">
+                                    <span class="text-dark fw-bold fs-5"> @{{ comment.user }}</span>
+                                    <p class="text-muted fs-6">{{ comment.date_time }}</p>
+                                </div>
+                                {% if comment.rating_score %}
+                                <div class="text-muted">
+                                    <div class="d-flex justify-content-end">
+                                        {% for i in comment.rating_score %}
+                                            <i class='bx bxs-star text-warning'></i>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p class="text-muted fs-6 mt-3">{{ comment.text }}</p>
+                    </div>
+                    
+                </div>
+                {% endfor %}
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+            {% endif %}
+          </div>
+    </div>
+</div>
+
+<h3>Смотрите также</h3>
+<div class="row row-cols-6 row-cols-md-6">
+    {% for product in products %}
+    <div class="col" id="product{{ product.id }}">
+            <a href="{% url 'product-detail' product.id %}">
+                <img src="{{ product.image.url }}" class="img-fluid" style="border-radius: 15px;" alt="">
+            </a>
+        <div class="d-flex flex-column mt-1">
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="text-dark fw-bold fs-4">{{ product.price }}$</span>
+              </div>
+              <div>
+                {% for i in produkt.rating_average %}
+                <i class='bx bxs-star text-warning fs-6'></i>
+              {% endfor %}
+              </div>
+            </div>
+            <p class="text-muted">{{ product.name|truncatechars:20 }}</p>
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

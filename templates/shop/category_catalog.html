@@ -1,0 +1,46 @@
+{% extends 'shop/base.html' %}
+
+{% load static %}
+{% block title %} {{ category.slug }} {% endblock %}
+{% block content %}
+
+{% if products %}
+<div class="row row-cols-6 row-cols-md-6">
+    {% for product in products %}
+    <div class="col" id="product{{ product.id }}">
+            <a href="{% url 'product-detail' product.id %}">
+                <img src="{{ product.image.url }}" class="img-fluid" style="border-radius: 15px;" alt="">
+            </a>
+        <div class="d-flex flex-column mt-1">
+            <div class="d-flex justify-content-between">
+              <div>
+                <span class="text-dark fw-bold fs-4">{{ product.price }}$</span>
+              </div>
+              <div>
+                {% for i in product.rating_average %}
+                <i class='bx bxs-star text-warning fs-6'></i>
+              {% endfor %}
+              </div>
+            </div>
+            <p class="text-muted">{{ product.name|truncatechars:20 }}</p>
+            {% if product.in_cart_status %}
+            <button class="btn btn-primary" disabled >В корзине</button>
+            {% else %}
+            <form action="" method="post">
+              {% csrf_token %}
+              <input type="hidden" value="{{ product.id }}" name="product_id">
+              <button type="submit" class="btn btn-primary">В корзину</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+<div style="height: 75vh;; display: flex; justify-content: center; align-items: center">
+  <h1>в категории <span style="color: rgb(72 124 219);">{{ category.name }}</span> товаров нет</h1>
+</div>
+
+{% endif %}
+
+{% endblock %}

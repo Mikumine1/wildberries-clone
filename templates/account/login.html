@@ -1,0 +1,67 @@
+{% extends 'account/base.html' %}
+{% load static %}
+{% load allauth account %}
+{% block content %}
+    <div class="card px-sm-6 px-0">
+        <div class="card-body">
+            
+            <h4 class="mb-1">Welcome to sneat! 👋</h4>
+            <p class="mb-6">Please sign-in to your account and start the adventure</p>
+
+            <form id="formAuthentication" method="post" class="mb-6 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+                {% csrf_token %}
+                <div class="mb-6 fv-plugins-icon-container">
+                    <label for="email" class="form-label">Username</label>
+                    {{ form.login }}
+                    <div
+                        class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                    </div>
+                </div>
+                <div class="mb-6 form-password-toggle fv-plugins-icon-container">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-group input-group-merge has-validation">
+                        {{ form.password }}
+                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    </div>
+                    <div
+                        class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <div class="d-flex justify-content-between mt-8">
+                        <div class="form-check mb-0 ms-2">
+                            {{ form.remember }}
+                            <label class="form-check-label" for="remember-me">
+                                Remember Me
+                            </label>
+                        </div>
+                        <a href="{% url 'account_reset_password' %}">
+                            <span>Forgot Password?</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <button class="btn btn-primary d-grid w-100 mt-3" type="submit">Login</button>
+                </div>
+                <input type="hidden">
+            </form>
+                
+
+            <p class="text-center">
+                <span>New on our platform?</span>
+                <a href="{% url 'account_signup' %}">
+                    <span>Create an account</span>
+                </a>
+            </p>
+
+            <div class="divider my-6">
+                <div class="divider-text">or</div>
+            </div>
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'google_login' %}" class="btn btn-sm btn-icon rounded-circle btn-text-google-plus">
+                        <i class="tf-icons bx bxl-google fs-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+{% endblock %}

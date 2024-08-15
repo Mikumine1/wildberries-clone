@@ -1,0 +1,66 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container">
+    <div class="card d-flex flex-column">
+        <table class="mx-3 my-2">
+            <tr>
+                <th>
+                    Компании:
+                </th>
+            </tr>
+        </table><br>
+        <div class="card-datatable table-responsive">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <table class="datatables-products table dataTable no-footer dtr-column collapsed"
+                    id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                    <thead class="border-top">
+                        <tr>
+                            <th class="" rowspan="1" colspan="1" style="width: 18px;">№</th>
+                            <th>Компания</th>
+                            <th>Недовно добавленные</th>
+                            <th>Посмотреть товары</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in companies %}
+                        <tr class="odd">
+                            <td class="">
+                                {{ forloop.counter }}
+                            </td>
+                            <td class="sorting_1">
+                                <div class="d-flex justify-content-start align-items-center product-name">
+                                    <div class="avatar-wrapper">
+                                        {% if i.logo %}
+                                        <div class="avatar avatar me-4 rounded-2 bg-label-secondary"><img
+                                                src="{{ i.logo.url }}" alt="" class="rounded">
+                                        </div>
+                                        {% else %}
+                                        <div class="avatar avatar me-4 rounded-2 bg-label-secondary">
+                                            <img src="/media/logo/adidas.webp" alt="" class="rounded">
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <h6 class="text-nowrap mb-0">{{ i.name }}</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <th>
+                                <img class="img-fluid " width='40' height="40" src="{{ i.last_product.image.url }}" alt="">
+
+                            </th>
+                            <td>
+                                <a href="{% url 'company-detail' i.id %}">
+                                    <span class="fs-5">Перейти ></span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
